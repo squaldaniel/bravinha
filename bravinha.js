@@ -1,6 +1,7 @@
 /**
  * Bravinha.js
- * @autor Daniels Hogans
+ * @autor Daniels Hogans - 2023
+ * @email daniel.santos.ap@gmail.com
  */
 function ObserverBind(
     idElementObserved, 
