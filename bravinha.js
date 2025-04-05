@@ -57,3 +57,60 @@ function getDataUrl(url, callback){
             console.error(error);
         });
 };
+    let url = 'https://jsonplaceholder.typicode.com/posts';
+    /** 
+     * 
+    */
+    async function getData(url)
+    {
+        return await fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+    } 
+    async function exibirPosts() {
+            const posts = await getData(url);
+            const container = document.getElementById('container');
+            
+            posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <p><strong>ID:</strong> ${post.id}</p>
+                    <p><strong>User ID:</strong> ${post.userId}</p>
+                    <p>${post.body}</p>
+                `;
+                container.appendChild(postDiv);
+            });
+        }
+        // Executar quando o documento carregar
+        // document.addEventListener('DOMContentLoaded', exibirPosts);
+        async function carregarTemplate(templateName, dados) {
+          try {
+            const response = await fetch(`${templateName}.html`); 
+            const templateHtml = await response.text();
+
+            const htmlFinal = templateHtml.replace(
+              /{{(\w+)}}/g, 
+              (match, placeholder) => dados[placeholder] || ''
+            );
+            
+            return htmlFinal;
+          } catch (erro) {
+            console.error('Erro ao carregar o template:', erro);
+            return '';
+          }
+        }
+        const dados = {
+          nome: "Maria Oliveira",
+          email: "maria@exemplo.com",
+          idade: 28
+        };
+        carregarTemplate('template', dados)
+        .then(html => {
+          document.getElementById('container2').innerHTML = html;
+        });
